@@ -1,0 +1,73 @@
+{
+	"name": "gulp-starter-kit",
+	"version": "1.0.0",
+	"description": "A simple gulpjs starter kit for Front-end developer.",
+	"author": "Son-Tung Ngo <hi@nstung.com>",
+	"license": "MIT",
+	"private": true,
+	"main": "src/js/main.js",
+	"scripts": {
+		"clean": "gulp clean",
+		"dev": "gulp dev",
+		"build": "gulp build",
+		"build-dev": "npm run build-css && npm run build-js && npm run build-images",
+		"build-css": "gulp buildCSS",
+		"build-js": "gulp buildJS",
+		"build-images": "gulp buildImages"
+	},
+	"filesToCopyGlobs": {
+		"fonts": "src/**/*.{eot,svg,ttf,woff,woff2}"
+	},
+	"globs": {
+		"images": "src/**/*.{jpg,jpeg,png,gif,svg}",
+		"fonts": "src/**/*.{eot,svg,ttf,woff,woff2}",
+		"html": "src/**/*.html",
+		"js": "src/**/*.js",
+		"scss": "src/**/*.scss"
+	},
+	"babel": {
+		"presets": [
+			[
+				"@babel/preset-env",
+				{
+					"useBuiltIns": "usage"
+				}
+			]
+		]
+	},
+	"browserslist": [
+		"last 1 version"
+	],
+	"dependencies": {
+		"@babel/polyfill": "^7.2.5",
+		"bootstrap": "^4.1.3",
+		"ionicons": "^4.5.1",
+		"jquery": "^3.3.1",
+		"popper.js": "^1.14.6"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.2.2",
+		"@babel/preset-env": "^7.2.3",
+		"autoprefixer": "^9.4.3",
+		"babelify": "^10.0.0",
+		"browser-sync": "^2.26.3",
+		"browserify": "^16.2.3",
+		"cssnano": "^4.1.7",
+		"fs-extra": "^7.0.1",
+		"gulp": "^4.0.0",
+		"gulp-babel": "^8.0.0",
+		"gulp-data": "^1.3.1",
+		"gulp-imagemin": "^5.0.3",
+		"gulp-nunjucks-render": "^2.2.2",
+		"gulp-postcss": "^8.0.0",
+		"gulp-sass": "^4.0.2",
+		"gulp-sourcemaps": "^2.6.4",
+		"gulp-uglify": "^3.0.1",
+		"imagemin-giflossy": "^5.1.10",
+		"imagemin-mozjpeg": "^8.0.0",
+		"imagemin-pngquant": "^6.0.1",
+		"js-yaml": "^3.12.1",
+		"vinyl-buffer": "^1.0.1",
+		"vinyl-source-stream": "^2.0.0"
+	}
+}
