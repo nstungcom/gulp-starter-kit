@@ -1,5 +1,5 @@
 ## Gulp Starter Kit
-An simple Gulp Starter Kit for frontend developer which supports: Bootstrap 4, SCSS, Nunjucks, jQuery, Babel + auto polyfill & Browserify.
+A simple Gulp Starter Kit for frontend developer which supports: Bootstrap 4, SCSS, Nunjucks, jQuery, Babel + auto polyfill, Browserify & Browsersync.
 
 ## Requirements
 - Node.js 10.x
@@ -40,7 +40,7 @@ npm run build-js
 npm run build-images
 ```
 
-***Removing the dist folder***
+***Remove the dist folder***
 ```
 npm run clean
 ```
