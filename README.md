@@ -4,7 +4,7 @@ A Gulp Starter Kit for frontend developers which supports: SCSS, Nunjucks, Babel
 ### Features
 | Feature | Summary |
 |----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Independent front-end frameworks | Use any of your favorite front-end frameworks like Bootstrap 4, Foundation, UIKit etc. It's simple! Check out our recipes(coming soon) |
+| Independent front-end frameworks | Use any of your favorite front-end frameworks like Bootstrap 4, Foundation, UIKit etc. It's simple! Check out our [recipes](/docs/recipes/). |
 | Sass support (SCSS Syntax) | Compile [Sass](http://sass-lang.com/) into CSS with ease, bringing support for variables, mixins and more. |
 | Performance optimization | Minify and concatenate JavaScript, CSS and Images to help keep your pages lean. |
 | ES6+ via Babel | ES6+ support using [Babel](https://babeljs.io/). ES6+ source code will be automatically transpiled to ES5 for wide browser support. |
