@@ -20,8 +20,8 @@ A Gulp Starter Kit for frontend developers which supports: SCSS, Nunjucks, Babel
 - Yarn 1.x
 
 ## Quick start
-- Create a empty folder and navigate with CLI to the folder
-- Clone the repo `git clone https://github.com/nstungcom/gulp-starter-kit.git .`
+- [Download the latest release](https://github.com/nstungcom/gulp-starter-kit/archive/master.zip) or 
+- Clone the repo `git clone https://github.com/nstungcom/gulp-starter-kit.git my-project`
 - With [npm](https://www.npmjs.com/): `npm i`
 - With [yarn](https://yarnpkg.com/): `yarn`
 - Development: `yarn run dev` or `npm run dev`
