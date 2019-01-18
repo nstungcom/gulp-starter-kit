@@ -23,7 +23,8 @@
     "fonts": "src/**/*.{eot,svg,ttf,woff,woff2}",
     "html": "src/**/*.html",
     "js": "src/**/*.js",
-    "scss": "src/**/*.scss"
+    "scss": "src/**/*.scss",
+    "yaml": "src/data/*.yml"
   },
   "babel": {
     "presets": [
