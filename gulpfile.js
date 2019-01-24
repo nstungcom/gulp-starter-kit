@@ -72,7 +72,7 @@ function optimizeJS(done) {
 
 // Transpile html
 function html(done) {
-  return src([config.globs.html, '!src/layouts/**', '!src/partials/**'])
+  return src([config.globs.html, '!src/layouts/**', '!src/partials/**', '!src/macros/**'])
     .pipe(data(function(file) {
       let filename = 'src/data/'+path.basename(file.basename)+'.yml';
       try {
