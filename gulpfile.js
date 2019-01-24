@@ -95,7 +95,7 @@ function copyFiles(done) {
   done();
 }
 
-// Copy files
+// Copy images
 function copyImages(done) {
   return src([config.globs.images, '!src/fonts/**'])
     .pipe(dest('dist/'));
