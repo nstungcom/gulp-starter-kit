@@ -2,11 +2,6 @@
 
 First we need to install Bootstrap 4 and it's dependencies.
 
-With Yarn:
-```sh
-$ yarn add bootstrap jquery popper.js
-```
-
 With npm:
 ```sh
 $ npm i bootstrap jquery popper.js
