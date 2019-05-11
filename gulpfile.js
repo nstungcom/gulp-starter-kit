@@ -7,7 +7,7 @@ const browsersync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
-const imageminGiflossy = require('imagemin-giflossy');
+const imageminGifsicle = require('imagemin-gifsicle');
 const nunjucksRender  = require('gulp-nunjucks-render');
 const data = require('gulp-data');
 const yaml = require('js-yaml');
@@ -105,9 +105,9 @@ function copyImages(done) {
 function optimizeImages(done) {
   return src(['dist/**/*.{jpg,jpeg,png,gif,svg}', '!dist/fonts/**', '!src/fonts/**'])
     .pipe(imagemin([
-      imageminGiflossy({interlaced: true, optimizationLevel: 3, lossy: 85}),
+      imageminGifsicle({interlaced: true, optimizationLevel: 3}),
       imageminMozjpeg({quality: 85}),
-      imageminPngquant({quality: 85}),
+      imageminPngquant({quality: [0.75, 0.85]}),
       imagemin.svgo({plugins: [{removeViewBox: true}, {cleanupIDs: false}]})
     ]))
     .pipe(dest('dist/'));
