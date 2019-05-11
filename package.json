@@ -24,7 +24,7 @@
     "html": "src/**/*.html",
     "js": "src/**/*.js",
     "scss": "src/**/*.scss",
-    "yaml": "src/data/*.yml"
+    "yaml": "src/data/data.yml"
   },
   "babel": {
     "presets": [

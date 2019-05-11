@@ -74,13 +74,7 @@ function optimizeJS(done) {
 function html(done) {
   return src([config.globs.html, '!src/layouts/**', '!src/partials/**', '!src/macros/**'])
     .pipe(data(function(file) {
-      let filename = 'src/data/'+path.basename(file.basename)+'.yml';
-      try {
-        return yaml.safeLoad(fs.readFileSync(filename, 'utf8'));
-      } catch (error) {
-        console.error(error.message);
-        return {};
-      }
+      return yaml.safeLoad(fs.readFileSync(config.globs.yaml, 'utf8'));
     }))
     .pipe(nunjucksRender({path: 'src'}))
     .pipe(dest('dist/'));
