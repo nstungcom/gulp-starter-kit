@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>{% if pagetitle %}{{ pagetitle }} |{% endif %} Gulp Starter Kit</title>
+    <title>{% if pagetitle %}{{ pagetitle }} | {% endif %}Gulp Starter Kit</title>
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body {% if bodyClass %}class="{{ bodyClass }}"{% endif %}>
@@ -18,6 +18,7 @@
         {% block content %}{% endblock %}
       </div>
       <div id="footer">
+      {% block footer %}{% endblock %}
       </div>
     </div>
 
