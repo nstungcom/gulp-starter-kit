@@ -15,8 +15,9 @@ A Gulp Starter Kit for frontend developers which supports: SCSS, Nunjucks, Babel
 
 ## Requirements
 - Node.js 10.x
-- Gulp.js 4.x
 - npm 6.x
+- gulp 4.x
+- gulp-cli 2.x
 
 ## Quick start
 - [Download the latest release](https://github.com/nstungcom/gulp-starter-kit/archive/master.zip) or 
