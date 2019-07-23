@@ -1,5 +1,5 @@
 ## Gulp Starter Kit
-A Gulp Starter Kit for frontend developers which supports: SCSS, Nunjucks, Babel + auto polyfill, Browserify & Browsersync.
+![Build status](https://travis-ci.org/nstungcom/gulp-starter-kit.svg?branch=master)
 
 ### Features
 | Feature | Summary |
