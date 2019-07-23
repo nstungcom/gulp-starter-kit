@@ -1,5 +1,5 @@
 ## Gulp Starter Kit
-![Build status](https://travis-ci.org/nstungcom/gulp-starter-kit.svg?branch=master)
+[![Build Status](https://travis-ci.org/nstungcom/gulp-starter-kit.svg?branch=master)](https://travis-ci.org/nstungcom/gulp-starter-kit)
 
 ### Features
 | Feature | Summary |
