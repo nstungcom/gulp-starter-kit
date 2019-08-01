@@ -34,7 +34,7 @@ function css(done) {
   return src(config.globs.scss)
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sass.sync().on('error', sass.logError))
-    .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: '../src/scss'}))
+    .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: '../../'}))
     .pipe(dest('dist/'));
   done();
 }
