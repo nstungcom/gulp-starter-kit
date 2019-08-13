@@ -1,16 +1,19 @@
 # Using Bootstrap 4 as front-end framework
 
-First we need to install Bootstrap 4 and it's dependencies.
+First we need to install Bootstrap 4 and its dependencies.
 
 With npm:
 ```sh
 $ npm i bootstrap jquery popper.js
 ```
 
-Next we need to import Bootstrap SCSS and JS files by creating 2 new files:
+Next we need to import Bootstrap 4 SCSS and JS files by creating 2 new files:
 
 `src/css/vendors/_bootstrap-custom.scss`
 ```scss
+// Override variables
+$primary: #375E97;
+
 // Required
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
@@ -44,7 +47,7 @@ In `src/css/main.scss` add:
 In `src/js/main.js` add:
 ```js
 // Import vendors js
-global.$ = global.jQUery = require('jquery/dist/jquery'); // jquery-slim won't work with bootstrap - 16.09.2019
+global.$ = global.jQUery = require('jquery/dist/jquery');
 require('./vendors/bootstrap-custom');
 ```
 
