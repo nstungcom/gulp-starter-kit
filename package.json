@@ -50,6 +50,7 @@
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
     "browserify": "^16.5.0",
+    "core-js": "^3.2.1",
     "cssnano": "^4.1.10",
     "fs-extra": "^8.1.0",
     "gulp": "^4.0.2",
