@@ -7,48 +7,111 @@ With npm:
 $ npm i bootstrap jquery popper.js
 ```
 
+Bootstrap 4 supports modern browsers but also IE 11+, so we need to edit the `.browserslistrc` file:
+```yaml
+# Browsers support
+# https://browserl.ist/?q=%3E%3D+1%25%2C+last+1+major+version%2C+not+dead%2C+Chrome+%3E%3D+60%2C+Firefox+%3E%3D+60%2C+Edge+%3E%3D+15.15063%2C+Explorer+11%2C+iOS+%3E%3D+10%2C+Safari+%3E%3D+10%2C+Android+%3E%3D+6%2C+not+ExplorerMobile+%3C%3D+11
+# Global coverage: 92.69%
+
+>= 1%
+last 1 major version
+not dead
+Chrome >= 45
+Firefox >= 38
+Edge >= 12
+Explorer >= 10
+iOS >= 9
+Safari >= 9
+Android >= 4.4
+Opera >= 30
+```
+
 Next we need to import Bootstrap 4 SCSS and JS files by creating 2 new files:
 
-`src/css/vendors/_bootstrap-custom.scss`
+`src/assets/scss/vendor/_bootstrap-custom.scss`
 ```scss
 // Override variables
-$primary: #375E97;
+$body-color: #696969;
 
 // Required
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins";
+@import "functions";
+@import "variables";
+@import "mixins";
 
 // Optional import only files that we need
-@import "node_modules/bootstrap/scss/reboot";
-@import "node_modules/bootstrap/scss/utilities";
-@import "node_modules/bootstrap/scss/type";
-@import "node_modules/bootstrap/scss/images";
-@import "node_modules/bootstrap/scss/buttons";
-@import "node_modules/bootstrap/scss/grid";
+// @import "root";
+@import "reboot";
+@import "type";
+@import "images";
+// @import "code";
+@import "grid";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+// @import "button-group";
+// @import "input-group";
+// @import "custom-forms";
+@import "nav";
+@import "navbar";
+@import "card";
+@import "breadcrumb";
+@import "pagination";
+// @import "badge";
+// @import "jumbotron";
+// @import "alert";
+// @import "progress";
+// @import "media";
+// @import "list-group";
+// @import "close";
+// @import "toasts";
+// @import "modal";
+// @import "tooltip";
+// @import "popover";
+// @import "carousel";
+// @import "spinners";
+@import "utilities";
+// @import "print";
 ```
 
-`src/js/vendors/bootstrap-custom.js`
+`src/assets/js/vendor/bootstrap-custom.js`
 ```js
-// Required
-require('popper.js/dist/umd/popper');
+// Required 
+require('popper.js');
+
+// Optional import only files that we need
+// require('bootstrap/js/dist/alert');
+// require('bootstrap/js/dist/button');
+// require('bootstrap/js/dist/carousel');
+require('bootstrap/js/dist/collapse');
+require('bootstrap/js/dist/dropdown');
+// require('bootstrap/js/dist/modal');
+// require('bootstrap/js/dist/popover');
+// require('bootstrap/js/dist/scrollspy');
+// require('bootstrap/js/dist/tab');
+// require('bootstrap/js/dist/toast');
+// require('bootstrap/js/dist/tooltip');
 require('bootstrap/js/dist/util');
-
-// Optional import only files that we need
-require('bootstrap/js/dist/tooltip');
 ```
 
-In `src/css/main.scss` add:
+In `src/assets/scss/app.scss` add:
 ```scss
-// Import vendors scss
-@import 'vendors/bootstrap-custom';
+// Import vendor scss
+@import './vendor/bootstrap-custom';
 ```
 
-In `src/js/main.js` add:
+In `src/assets/js/app.js` add:
 ```js
-// Import vendors js
-global.$ = global.jQUery = require('jquery/dist/jquery');
-require('./vendors/bootstrap-custom');
+// Import vendor js
+global.$ = global.jQuery = require('jquery');
+require('./vendor/bootstrap-custom');
+
+// Import your js files here
+
+$(function () {
+  // Add your codes here
+});
 ```
 
 That's it, you are now ready to use Bootstrap 4 as front-end framework.

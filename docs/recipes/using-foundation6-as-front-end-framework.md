@@ -1,23 +1,35 @@
 # Using Foundation 6 as front-end framework
 
-Before continue reading, you really should checkout Foundation [offical build system](https://github.com/zurb/foundation-zurb-template) which powered by [Gulp](https://gulpjs.com/) & [Webpack](https://webpack.js.org/).
+Before continuing reading, you really should checkout Foundation [offical build system](https://github.com/zurb/foundation-zurb-template) which is powered by [Gulp](https://gulpjs.com/) & [Webpack](https://webpack.js.org/).
 
 We need to install Foundation 6 and its dependencies first.
 
 With npm:
 ```sh
-$ npm i foundation-sites jquery
+$ npm i foundation-sites what-input jquery
+```
+
+Foundation 6 supports modern browsers but also IE 9+, so we need to edit the `.browserslistrc` file:
+```yaml
+# Browsers support
+# https://browserl.ist/?q=last+2+versions%2C+ie+%3E%3D+9%2C+ios+%3E%3D+7%2C+android+%3E%3D+4.4
+# Global coverage: 91.2%
+
+last 2 versions
+ie >= 9
+ios >= 7
+android >= 4.4
 ```
 
 Next we need to import Foundation 6 SCSS and JS files by creating 2 new files:
 
-`src/css/vendors/_foundation-custom.scss`
+`src/assets/scss/vendor/_foundation-custom.scss`
 ```scss
 // Override variables
 $body-font-color: #696969;
 
 // Required
-@import 'node_modules/foundation-sites/scss/foundation';
+@import "foundation";
 
 // Optional include only what we need, uncomment to load
 
@@ -31,7 +43,7 @@ $body-font-color: #696969;
 // @include foundation-grid;
 // @include foundation-flex-grid;
 
-// // Generic components
+// Generic components
 @include foundation-button;
 // @include foundation-button-group;
 // @include foundation-close-button;
@@ -40,7 +52,8 @@ $body-font-color: #696969;
 // @include foundation-slider;
 // @include foundation-switch;
 // @include foundation-table;
-// // Basic components
+
+// Basic components
 // @include foundation-badge;
 // @include foundation-breadcrumbs;
 // @include foundation-callout;
@@ -49,35 +62,36 @@ $body-font-color: #696969;
 // @include foundation-pagination;
 // @include foundation-tooltip;
 
-// // Containers
+// Containers
 // @include foundation-accordion;
 // @include foundation-media-object;
 // @include foundation-orbit;
 // @include foundation-responsive-embed;
 // @include foundation-tabs;
 // @include foundation-thumbnail;
-// // Menu-based containers
+
+// Menu-based containers
 // @include foundation-menu;
 // @include foundation-menu-icon;
 // @include foundation-accordion-menu;
 // @include foundation-drilldown-menu;
 // @include foundation-dropdown-menu;
 
-// // Layout components
+// Layout components
 // @include foundation-off-canvas;
 // @include foundation-reveal;
 // @include foundation-sticky;
 // @include foundation-title-bar;
 // @include foundation-top-bar;
 
-// // Helpers
+// Helpers
 @include foundation-float-classes;
 @include foundation-flex-classes;
 @include foundation-visibility-classes;
 // @include foundation-prototype-classes;
 ```
 
-`src/js/vendors/foundation-custom.js`
+`src/assets/js/vendor/foundation-custom.js`
 ```js
 // Required
 require('foundation-sites/js/entries/plugins/foundation.core');
@@ -114,22 +128,29 @@ require('foundation-sites/js/entries/plugins/foundation.equalizer');
 // require('foundation-sites/js/entries/plugins/foundation.toggler');
 // require('foundation-sites/js/entries/plugins/foundation.tooltip');
 // require('foundation-sites/js/entries/plugins/foundation.responsiveAccordionTabs');
-```
-
-In `src/css/main.scss` add:
-```scss
-// Import vendors scss
-@import 'vendors/foundation-custom';
-```
-
-In `src/js/main.js` add:
-```js
-// Import vendors js
-global.$ = global.jQUery = require('jquery');
-require('./vendors/foundation-custom');
 
 // Initializing Foundation
 $(document).foundation();
+```
+
+In `src/assets/scss/app.scss` add:
+```scss
+// Import vendor scss
+@import "./vendor/foundation-custom";
+```
+
+In `src/assets/js/app.js` add:
+```js
+// Import vendor js
+global.$ = global.jQuery = require('jquery');
+require('what-input');
+require('./vendor/foundation-custom');
+
+// Import your js files here
+
+$(function () {
+  // Add your codes here
+});
 ```
 
 That's it, you are now ready to use Foundation 6 as front-end framework.
