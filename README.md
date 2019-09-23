@@ -25,7 +25,7 @@
 - Development: `npm run dev`
 - Build for production: `npm run build`
 - Build CSS only: `npm run build-css`
-- Build HTML only: `npm run build-css`
+- Build HTML only: `npm run build-html`
 - Build JS only: `npm run build-js`
 - Build Images only: `npm run build-img`
 - Copy assets: `npm run copy`
