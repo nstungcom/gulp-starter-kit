@@ -14,8 +14,8 @@
 | Cross-device Synchronization | Synchronize clicks, scrolls, forms and live-reload across multiple devices as you edit your project. Powered by [BrowserSync](http://browsersync.io). |
 
 ## Requirements
-- Node.js[https://nodejs.org/en/] 8 (tested with 8.16.1 and 10.16.3)
-- gulp[https://gulpjs.com/] 4
+- [Node.js](https://nodejs.org/en/) 8 (tested with 8.16.1 and 10.16.3)
+- [Gulp](https://gulpjs.com/) 4
 - gulp-cli 2
 
 ## Quick start
