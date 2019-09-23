@@ -28,9 +28,7 @@
     "dev": "gulp development"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
-    "jquery": "^3.4.1",
-    "uikit": "^3.2.0"
+    "@babel/polyfill": "^7.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
