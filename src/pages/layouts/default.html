@@ -1,27 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html class="no-js" lang="">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>{% if pagetitle %}{{ pagetitle }} | {% endif %}Gulp Starter Kit</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="assets/css/app.css">
   </head>
   <body {% if bodyClass %}class="{{ bodyClass }}"{% endif %}>
 
     <div id="page">
       <div id="header">
-        {% block header %}{% endblock %}
+        {% block header %}
+        {% endblock %}
       </div>
       <div id="content">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
       </div>
       <div id="footer">
-      {% block footer %}{% endblock %}
+      {% block footer %}
+      {% endblock %}
       </div>
     </div>
 
-    <script src="js/main.js"></script>
+    <script src="assets/js/app.js"></script>
   </body>
 </html>
