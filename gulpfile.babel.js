@@ -123,7 +123,7 @@ function watchFiles() {
   gulp.watch('src/assets/scss/**/*.scss').on('all', gulp.series(css, liveReload));
   gulp.watch('src/assets/js/**/*.js').on('all', gulp.series(js, liveReload));
   gulp.watch('src/assets/img/**/*').on('all', gulp.series(images, liveReload));
-  gulp.watch(['src/pages/**/*.html', 'src/data/**/*.yaml']).on('all', gulp.series(html, liveReload));
+  gulp.watch(['src/pages/**/*.html', 'src/data/**/*.yml']).on('all', gulp.series(html, liveReload));
 }
 
 // Export tasks which can be used later with "gulp taskname"
