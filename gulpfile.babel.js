@@ -128,8 +128,8 @@ function watchFiles() {
 
 // Export tasks which can be used later with "gulp taskname"
 // Run "gulp --tasks" to see all the avaiable runable tasks
-exports.copyAssets = copyAssets;
 exports.cleanUp = cleanUp;
+exports.copyAssets = gulp.series(cleanUp, copyAssets);
 exports.development = gulp.series(
   html, gulp.parallel(copyAssets, images, css, js), server, watchFiles,
 );
