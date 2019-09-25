@@ -94,7 +94,7 @@ function copyAssets() {
 // Copy images
 // In production images are compressed
 function images() {
-  return gulp.src('src/assets/img/**/*')
+  return gulp.src('src/assets/**/*.{jpg,jpeg,png,gif,svg,webp}')
     .pipe(gulpif(PRODUCTION,
       imagemin([
         imageminGifsicle({ interlaced: true, optimizationLevel: 3 }),
