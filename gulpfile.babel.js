@@ -25,7 +25,7 @@ import uglify from 'gulp-uglify';
 // Check for "--production" flag
 const PRODUCTION = !!(yargs.argv.production);
 
-// Load settings from config.yml
+// Load settings from config.yml file
 function loadConfig() {
   const configFile = fs.readFileSync('config.yml');
   return yaml.load(configFile);
@@ -46,8 +46,7 @@ function css() {
     .pipe(sass({ includePaths: PATHS.sassLibs }).on('error', sass.logError))
     .pipe(gulpif(PRODUCTION, postcss([autoprefixer(), cssnano()])))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
-    .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
-    // .pipe(browserSync.stream());
+    .pipe(gulp.dest(`${PATHS.dist}/assets/css`));
 }
 
 // Compile JS and transform with Babel
@@ -65,7 +64,7 @@ function js() {
 }
 
 // Compile Nunjucks into HTML
-// but skip the "layouts", "partials" & "macros" folders
+// but skips the "layouts", "partials" & "macros" folder
 function html() {
   return gulp.src([
     'src/pages/**/*.html',
@@ -85,7 +84,7 @@ function html() {
 }
 
 // Copy files from the "src/assets" folder
-// but skip the "img", "js", and "scss" folders.
+// but skips the "img", "js", and "scss" folder
 function copyAssets() {
   return gulp.src(PATHS.assets)
     .pipe(gulp.dest(`${PATHS.dist}/assets`));
@@ -127,7 +126,6 @@ function watchFiles() {
 }
 
 // Export tasks which can be used later with "gulp taskname"
-// Run "gulp --tasks" to see all the avaiable runable tasks
 exports.cleanUp = cleanUp;
 exports.copyAssets = gulp.series(cleanUp, copyAssets);
 exports.development = gulp.series(
