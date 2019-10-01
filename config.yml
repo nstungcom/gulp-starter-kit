@@ -16,3 +16,6 @@ PATHS:
   assets:
     - "src/assets/**/*"
     - "!src/assets/{img,js,scss}/**"
+  images:
+    - "src/assets/**/*.{jpg,jpeg,png,gif,svg,webp}"
+    - "!src/assets/fonts/**"
