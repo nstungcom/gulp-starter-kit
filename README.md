@@ -15,8 +15,7 @@
 
 ## Requirements
 - [Node.js](https://nodejs.org/en/) 8 (tested with 8.16.1 and 10.16.3)
-- [Gulp](https://gulpjs.com/) 4
-- gulp-cli 2
+- [Gulp](https://gulpjs.com/) 4 (tested with 4.0.2)
 
 ## Quick start
 - [Download the latest release](https://github.com/nstungcom/gulp-starter-kit/archive/master.zip) or 
