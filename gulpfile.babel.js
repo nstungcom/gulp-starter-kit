@@ -54,7 +54,7 @@ function css() {
 function js() {
   const bundler = browserify('src/assets/js/app.js', { debug: true }).transform(babel);
   return bundler.bundle()
-    .on('error', (err) => { console.error(err.stack); this.emit('end'); })
+    .on('error', function(err) { console.error(err.message); this.emit('end'); })
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
