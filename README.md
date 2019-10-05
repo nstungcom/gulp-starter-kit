@@ -1,5 +1,7 @@
 ## Gulp Starter Kit
-[![Build Status](https://travis-ci.org/nstungcom/gulp-starter-kit.svg?branch=master)](https://travis-ci.org/nstungcom/gulp-starter-kit)
+[![Build Status](https://travis-ci.org/nstungcom/gulp-starter-kit.svg?branch=master)](https://travis-ci.org/nstungcom/gulp-starter-kit) [![Gulp v4.0.2](https://img.shields.io/badge/gulp-v4.0.2-brightgreen.svg)](https://www.npmjs.com/package/gulp) [![Node.js 8.16.1](https://img.shields.io/badge/node-%3E%3D%208.16.1-brightgreen)](https://nodejs.org)
+
+
 
 ### Features
 | Feature | Summary |
