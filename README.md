@@ -12,6 +12,8 @@ Compile [Sass](http://sass-lang.com/) into CSS with ease, bringing support for v
 Minify and concatenate JavaScript, CSS and Images to help keep your pages lean.
 - **ES6+ via Babel**  
 ES6+ support using [Babel](https://babeljs.io/). ES6+ source code will be automatically transpiled to ES5 for wide browser support. Pollyfill will also be taken care of automatically.
+- **Linting**  
+Lint CSS,SCSS with [stylelint](https://stylelint.io/) and JS with [ESLint](https://eslint.org/)
 - **Nunjucks templating engine support**  
 Compile [Nunjucks](https://mozilla.github.io/nunjucks/) into HTML with ease, bringing support for include, extends, block inheritance, macros and more.
 - **Built-in HTTP Server**  
