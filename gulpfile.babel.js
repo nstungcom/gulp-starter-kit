@@ -113,7 +113,7 @@ function html () {
 // Copy files from the "src/assets" folder
 // but skips the "img", "js", and "scss" folder
 function copyAssets () {
-  return gulp.src(PATHS.assets)
+  return gulp.src(PATHS.assets, { nodir: true })
     .pipe(gulp.dest(`${PATHS.dist}/assets`))
 }
 
