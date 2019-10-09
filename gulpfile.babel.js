@@ -23,6 +23,7 @@ import buffer from 'vinyl-buffer'
 import uglify from 'gulp-uglify'
 import gulpStylelint from 'gulp-stylelint'
 import gulpEslint from 'gulp-eslint'
+import purgecss from 'gulp-purgecss'
 
 // Check for "--production" flag
 const PRODUCTION = !!(yargs.argv.production)
@@ -56,6 +57,15 @@ function stylelint (done) {
   return gulp.src('src/**/*.{css,scss}')
     .pipe(gulpStylelint({ reporters: [{ formatter: 'string', console: true }] })
       .on('error', done))
+}
+
+// Remove unused CSS
+function cleanUnusedCSS () {
+  return gulp.src(`${PATHS.dist}/**/*.css`)
+    .pipe(purgecss({
+      content: [`${PATHS.dist}/**/*.{html,js}`]
+    }))
+    .pipe(gulp.dest(PATHS.dist))
 }
 
 // Eslint for JS
@@ -148,8 +158,8 @@ exports.copyAssets = gulp.series(cleanUp, copyAssets)
 exports.development = gulp.series(
   html, gulp.parallel(copyAssets, images, css, js), server, watchFiles
 )
-exports.build = gulp.series(cleanUp, stylelint, eslint, gulp.parallel(copyAssets, images, html, css, js))
-exports.buildCSS = gulp.series(cleanUp, stylelint, css)
+exports.build = gulp.series(cleanUp, stylelint, eslint, gulp.parallel(copyAssets, images, html, css, js), cleanUnusedCSS)
+exports.buildCSS = gulp.series(cleanUp, stylelint, css, cleanUnusedCSS)
 exports.buildHTML = gulp.series(cleanUp, html)
 exports.buildJS = gulp.series(cleanUp, eslint, js)
 exports.buildImages = gulp.series(cleanUp, images)
