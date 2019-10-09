@@ -24,6 +24,7 @@ import uglify from 'gulp-uglify'
 import gulpStylelint from 'gulp-stylelint'
 import gulpEslint from 'gulp-eslint'
 import purgecss from 'gulp-purgecss'
+import gzip from 'gulp-gzip'
 
 // Check for "--production" flag
 const PRODUCTION = !!(yargs.argv.production)
@@ -65,6 +66,13 @@ function cleanUnusedCSS () {
     .pipe(purgecss({
       content: [`${PATHS.dist}/**/*.{html,js}`]
     }))
+    .pipe(gulp.dest(PATHS.dist))
+}
+
+// Compress assets
+function compressAssets () {
+  return gulp.src(`${PATHS.dist}/**/*.{css,js,html}`)
+    .pipe(gzip({ extension: 'gzip' }))
     .pipe(gulp.dest(PATHS.dist))
 }
 
@@ -158,8 +166,10 @@ exports.copyAssets = gulp.series(cleanUp, copyAssets)
 exports.development = gulp.series(
   html, gulp.parallel(copyAssets, images, css, js), server, watchFiles
 )
-exports.build = gulp.series(cleanUp, stylelint, eslint, gulp.parallel(copyAssets, images, html, css, js), cleanUnusedCSS)
-exports.buildCSS = gulp.series(cleanUp, stylelint, css, cleanUnusedCSS)
-exports.buildHTML = gulp.series(cleanUp, html)
-exports.buildJS = gulp.series(cleanUp, eslint, js)
+exports.build = gulp.series(
+  cleanUp, stylelint, eslint, gulp.parallel(copyAssets, images, html, css, js),
+  cleanUnusedCSS, compressAssets)
+exports.buildCSS = gulp.series(cleanUp, stylelint, css, cleanUnusedCSS, compressAssets)
+exports.buildHTML = gulp.series(cleanUp, html, compressAssets)
+exports.buildJS = gulp.series(cleanUp, eslint, js, compressAssets)
 exports.buildImages = gulp.series(cleanUp, images)
