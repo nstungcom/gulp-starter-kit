@@ -19,12 +19,7 @@
   },
   "scripts": {
     "build": "gulp build --production || exit 0",
-    "build-css": "gulp buildCSS --production || exit 0",
-    "build-html": "gulp buildHTML --production",
-    "build-img": "gulp buildImages --production",
-    "build-js": "gulp buildJS --production || exit 0",
     "clean": "gulp cleanUp",
-    "copy": "gulp copyAssets",
     "dev": "gulp development",
     "fix-css": "stylelint \"src/**/*.{css,scss}\" --fix || exit 0",
     "fix-js": "eslint \"src/**/*.js\" --fix || exit 0"
