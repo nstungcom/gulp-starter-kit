@@ -26,10 +26,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
-    "@babel/register": "^7.6.0",
-    "autoprefixer": "^9.6.1",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "autoprefixer": "^9.6.4",
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
     "browserify": "^16.5.0",
@@ -49,7 +49,7 @@
     "gulp-eslint": "^6.0.0",
     "gulp-gzip": "^1.4.2",
     "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^6.1.0",
+    "gulp-imagemin": "^6.1.1",
     "gulp-jsbeautifier": "^3.0.1",
     "gulp-nunjucks-render": "^2.2.3",
     "gulp-postcss": "^8.0.0",
@@ -64,12 +64,12 @@
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-pngquant": "^8.0.0",
     "js-yaml": "^3.13.1",
-    "stylelint": "^11.0.0",
+    "stylelint": "^11.1.1",
     "stylelint-config-recommended-scss": "^4.0.0",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-scss": "^3.11.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
-    "yargs": "^14.0.0"
+    "yargs": "^14.2.0"
   }
 }
