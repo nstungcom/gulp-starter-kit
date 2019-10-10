@@ -23,19 +23,19 @@ Reload the browser in real-time anytime an edit is made without the need for an 
 - **Cross-device Synchronization**  
 Synchronize clicks, scrolls, forms and live-reload across multiple devices as you edit your project. Powered by [BrowserSync](http://browsersync.io).
 
-## Requirements
+### Requirements
 - [Node.js](https://nodejs.org/en/) 8 (tested with 8.16.1 and 10.16.3)
 - [Gulp](https://gulpjs.com/) 4 (tested with 4.0.2)
 
-## Quick start
+### Quick start
 - [Download the latest release](https://github.com/nstungcom/gulp-starter-kit/archive/master.zip) or 
 - Clone the repo `git clone https://github.com/nstungcom/gulp-starter-kit.git my-project/`
-- With [npm](https://www.npmjs.com/): `npm i`
+- With [npm](https://www.npmjs.com/): `npm install`
 - Development: `npm run dev`
 - Build for production: `npm run build`
 - Remove the `dist` folder: `npm run clean`
 
-## Quick start guides:
+### Quick start guides:
 - [Documentation](docs/README.md)
 - YAML: https://learnxinyminutes.com/docs/yaml/
 - Nunjucks: https://mozilla.github.io/nunjucks/templating.html
