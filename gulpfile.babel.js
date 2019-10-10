@@ -25,6 +25,8 @@ import gulpStylelint from 'gulp-stylelint'
 import gulpEslint from 'gulp-eslint'
 import purgecss from 'gulp-purgecss'
 import gzip from 'gulp-gzip'
+import RevAll from 'gulp-rev-all'
+import RevDelete from 'gulp-rev-delete-original'
 
 // Check for "--production" flag
 const PRODUCTION = !!(yargs.argv.production)
@@ -73,6 +75,14 @@ function cleanUnusedCSS () {
 function compressAssets () {
   return gulp.src(`${PATHS.dist}/**/*.{css,js,html}`)
     .pipe(gzip({ extension: 'gzip' }))
+    .pipe(gulp.dest(PATHS.dist))
+}
+
+// Revisioning files
+function revFiles () {
+  return gulp.src(`${PATHS.dist}/**/*.{css,js}`)
+    .pipe(RevAll.revision({ dontRenameFile: [/.html/g] }))
+    .pipe(RevDelete())
     .pipe(gulp.dest(PATHS.dist))
 }
 
@@ -162,14 +172,13 @@ function watchFiles () {
 
 // Export tasks which can be used later with "gulp taskname"
 exports.cleanUp = cleanUp
-exports.copyAssets = gulp.series(cleanUp, copyAssets)
 exports.development = gulp.series(
-  html, gulp.parallel(copyAssets, images, css, js), server, watchFiles
+  cleanUp,
+  gulp.parallel(html, copyAssets, images, css, js),
+  server, watchFiles
 )
 exports.build = gulp.series(
-  cleanUp, stylelint, eslint, gulp.parallel(copyAssets, images, html, css, js),
-  cleanUnusedCSS, compressAssets)
-exports.buildCSS = gulp.series(cleanUp, stylelint, css, cleanUnusedCSS, compressAssets)
-exports.buildHTML = gulp.series(cleanUp, html, compressAssets)
-exports.buildJS = gulp.series(cleanUp, eslint, js, compressAssets)
-exports.buildImages = gulp.series(cleanUp, images)
+  cleanUp, stylelint, eslint,
+  gulp.parallel(copyAssets, images, html, css, js),
+  cleanUnusedCSS, revFiles, compressAssets
+)

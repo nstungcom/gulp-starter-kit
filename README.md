@@ -33,11 +33,6 @@ Synchronize clicks, scrolls, forms and live-reload across multiple devices as yo
 - With [npm](https://www.npmjs.com/): `npm i`
 - Development: `npm run dev`
 - Build for production: `npm run build`
-- Build CSS only: `npm run build-css`
-- Build HTML only: `npm run build-html`
-- Build JS only: `npm run build-js`
-- Build Images only: `npm run build-img`
-- Copy assets: `npm run copy`
 - Remove the `dist` folder: `npm run clean`
 
 ## Quick start guides:
