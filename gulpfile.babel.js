@@ -80,7 +80,7 @@ function compressAssets () {
 
 // Revisioning files
 function revFiles () {
-  return gulp.src(`${PATHS.dist}/**/*.{css,js}`)
+  return gulp.src(`${PATHS.dist}/**/*.{css,html,js}`)
     .pipe(RevAll.revision({ dontRenameFile: [/.html/g] }))
     .pipe(RevDelete())
     .pipe(gulp.dest(PATHS.dist))
