@@ -24,9 +24,7 @@
     "fix-css": "stylelint \"src/**/*.{css,scss}\" --fix || exit 0",
     "fix-js": "eslint \"src/**/*.js\" --fix || exit 0"
   },
-  "dependencies": {
-    "@babel/polyfill": "^7.6.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
