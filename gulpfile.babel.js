@@ -66,8 +66,8 @@ function stylelint (done) {
 // Create critical CSS
 function criticalCSS () {
   return gulp.src(`${PATHS.dist}/**/*.html`)
-    .pipe(critical({ base: PATHS.dist, inline: true, css: [`${PATHS.dist}/assets/css/app.css`] }))
-    .on('error', function (err) { console.error(err.message) })
+    .pipe(critical({ base: PATHS.dist, inline: true, css: [`${PATHS.dist}/assets/css/app.css`] })
+      .on('error', function (err) { console.error(err.message) }))
     .pipe(gulp.dest(PATHS.dist))
 }
 
@@ -120,18 +120,20 @@ function js () {
 // Compile Nunjucks into HTML
 // but skips the "layouts", "partials" & "macros" folder
 function html () {
-  return gulp.src([
-    'src/pages/**/*.html',
-    '!src/pages/layouts/**',
-    '!src/pages/partials/**',
-    '!src/pages/macros/**'
-  ])
+  return gulp.src(
+    [
+      'src/pages/**/*.html',
+      '!src/pages/layouts/**',
+      '!src/pages/partials/**',
+      '!src/pages/macros/**'
+    ])
     .pipe(data(() => yaml.safeLoad(fs.readFileSync('src/data/data.yml'))))
     .pipe(nunjucksRender({ path: 'src/pages' }))
     .pipe(beautify({
       html: {
         indent_size: 2,
-        indent_char: ' '
+        indent_char: ' ',
+        max_preserve_newlines: 1
       }
     }))
     .pipe(gulp.dest(PATHS.dist))
@@ -142,6 +144,12 @@ function html () {
 function copyAssets () {
   return gulp.src(PATHS.assets, { nodir: true })
     .pipe(gulp.dest(`${PATHS.dist}/assets`))
+}
+
+// Copy static files to "dist" folder
+function copyStaticFiles () {
+  return gulp.src(PATHS.staticFiles, { allowEmpty: true })
+    .pipe(gulp.dest(PATHS.dist))
 }
 
 // Copy images
@@ -171,23 +179,25 @@ function liveReload (done) {
 }
 
 // Watch for file changes and run tasks
-function watchFiles () {
+function watchFiles (done) {
   gulp.watch(PATHS.assets, copyAssets)
-  gulp.watch('src/assets/scss/**/*.scss').on('all', gulp.series(css, liveReload))
-  gulp.watch('src/assets/js/**/*.js').on('all', gulp.series(js, liveReload))
-  gulp.watch('src/assets/img/**/*').on('all', gulp.series(images, liveReload))
-  gulp.watch(['src/pages/**/*.html', 'src/data/**/*.yml']).on('all', gulp.series(html, liveReload))
+  gulp.watch(PATHS.staticFiles, copyStaticFiles)
+  gulp.watch('src/assets/scss/**/*.scss', gulp.series(css, liveReload))
+  gulp.watch('src/assets/js/**/*.js', gulp.series(js, liveReload))
+  gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
+  gulp.watch(['src/pages/**/*.html', 'src/data/**/*.yml'], gulp.series(html, liveReload))
+  done()
 }
 
 // Export tasks which can be used later with "gulp taskname"
 exports.cleanUp = cleanUp
 exports.development = gulp.series(
   cleanUp,
-  gulp.parallel(html, copyAssets, images, css, js),
+  gulp.parallel(html, copyAssets, copyStaticFiles, images, css, js),
   server, watchFiles
 )
 exports.build = gulp.series(
   cleanUp, stylelint, eslint,
-  gulp.parallel(copyAssets, images, html, css, js),
+  gulp.parallel(copyAssets, copyStaticFiles, images, html, css, js),
   criticalCSS, cleanUnusedCSS, revFiles, compressAssets
 )

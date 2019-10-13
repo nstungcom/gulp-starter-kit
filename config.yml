@@ -19,3 +19,9 @@ PATHS:
   images:
     - "src/assets/**/*.{jpg,jpeg,png,gif,svg,webp}"
     - "!src/assets/fonts/**"
+  # Path to static files to copy to "dist"
+  staticFiles:
+    - "src/robots.txt"
+    - "src/favicon.ico"
+    - "src/.htaccess"
+    - "src/site.webmanifest"
