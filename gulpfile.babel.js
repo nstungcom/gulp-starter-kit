@@ -1,16 +1,12 @@
 import gulp from 'gulp'
-import fs from 'fs-extra'
+import fs from 'fs'
 import gulpif from 'gulp-if'
-import yargs from 'yargs'
 import browserSync from 'browser-sync'
 import sourcemaps from 'gulp-sourcemaps'
 import imagemin from 'gulp-imagemin'
 import imageminGifsicle from 'imagemin-gifsicle'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 import imageminPngquant from 'imagemin-pngquant'
-import nunjucksRender from 'gulp-nunjucks-render'
-import data from 'gulp-data'
-import beautify from 'gulp-jsbeautifier'
 import yaml from 'js-yaml'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
@@ -30,7 +26,7 @@ import RevDelete from 'gulp-rev-delete-original'
 const critical = require('critical').stream
 
 // Check for "--production" flag
-const PRODUCTION = !!(yargs.argv.production)
+const PRODUCTION = !!(process.env.NODE_ENV === 'production')
 
 // Load settings from config.yml file
 function loadConfig () {
@@ -38,12 +34,6 @@ function loadConfig () {
   return yaml.load(configFile)
 }
 const { PATHS, PORT } = loadConfig()
-
-// Remove the "dist" folder
-function cleanUp (done) {
-  fs.removeSync(PATHS.dist)
-  done()
-}
 
 // Compile SCSS into CSS
 // In production CSS is prefixed and compressed
@@ -90,7 +80,7 @@ function compressAssets () {
 // Revisioning files
 function revFiles () {
   return gulp.src(`${PATHS.dist}/**/*.{css,html,js}`)
-    .pipe(RevAll.revision({ dontRenameFile: [/.html/g], dontUpdateReference: ['.html'] }))
+    .pipe(RevAll.revision({ dontRenameFile: ['.html'], dontUpdateReference: ['.html'] }))
     .pipe(RevDelete())
     .pipe(gulp.dest(PATHS.dist))
 }
@@ -115,28 +105,6 @@ function js () {
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulpif(PRODUCTION, uglify()))
     .pipe(gulp.dest(`${PATHS.dist}/assets/js`))
-}
-
-// Compile Nunjucks into HTML
-// but skips the "layouts", "partials" & "macros" folder
-function html () {
-  return gulp.src(
-    [
-      'src/pages/**/*.html',
-      '!src/pages/layouts/**',
-      '!src/pages/partials/**',
-      '!src/pages/macros/**'
-    ])
-    .pipe(data(() => yaml.safeLoad(fs.readFileSync('src/data/data.yml'))))
-    .pipe(nunjucksRender({ path: 'src/pages' }))
-    .pipe(beautify({
-      html: {
-        indent_size: 2,
-        indent_char: ' ',
-        max_preserve_newlines: 1
-      }
-    }))
-    .pipe(gulp.dest(PATHS.dist))
 }
 
 // Copy files from the "src/assets" folder
@@ -185,19 +153,17 @@ function watchFiles (done) {
   gulp.watch('src/assets/scss/**/*.scss', gulp.series(css, liveReload))
   gulp.watch('src/assets/js/**/*.js', gulp.series(js, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
-  gulp.watch(['src/pages/**/*.html', 'src/data/**/*.yml'], gulp.series(html, liveReload))
+  gulp.watch(['src/**/*.{html,md,njk}', 'src/**/*.json'], liveReload)
   done()
 }
 
 // Export tasks which can be used later with "gulp taskname"
-exports.cleanUp = cleanUp
-exports.development = gulp.series(
-  cleanUp,
-  gulp.parallel(html, copyAssets, copyStaticFiles, images, css, js),
+exports.default = gulp.series(
+  gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
   server, watchFiles
 )
 exports.build = gulp.series(
-  cleanUp, stylelint, eslint,
-  gulp.parallel(copyAssets, copyStaticFiles, images, html, css, js),
+  eslint, stylelint,
+  gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
   criticalCSS, cleanUnusedCSS, revFiles, compressAssets
 )

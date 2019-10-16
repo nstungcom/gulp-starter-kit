@@ -1,0 +1,24 @@
+<!doctype html>
+<html class="no-js" lang="{{ site.lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{%- if title -%}{{ title }} - {{ site.title }}{%- else -%}{{ site.title }}{%- endif -%}</title>
+
+    {% include "meta.html" ignore missing%}
+
+    <link rel="stylesheet" href="/assets/css/app.css">
+  </head>
+  <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+
+    <div class="page">
+      {% include "header.html" ignore missing %}
+      <div class="content">
+        {{ content | safe }}
+      </div>
+      {% include "footer.html" ignore missing %}
+    </div>
+
+    <script src="/assets/js/app.js"></script>
+  </body>
+</html>
