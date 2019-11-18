@@ -33,7 +33,7 @@ function loadConfig () {
   const configFile = fs.readFileSync('config.yml')
   return yaml.load(configFile)
 }
-const { PATHS, PORT } = loadConfig()
+const { PATHS, PORT, PURGECSS } = loadConfig()
 
 // Compile SCSS into CSS
 // In production CSS is prefixed and compressed
@@ -65,7 +65,10 @@ function criticalCSS () {
 function cleanUnusedCSS () {
   return gulp.src(`${PATHS.dist}/**/*.css`)
     .pipe(purgecss({
-      content: [`${PATHS.dist}/**/*.{html,js}`]
+      content: [`${PATHS.dist}/**/*.{html,js}`],
+      whitelist: PURGECSS.whitelist,
+      whitelistPatterns: PURGECSS.whitelistPatterns,
+      whitelistPatternsChildren: PURGECSS.whitelistPatternsChildren      
     }))
     .pipe(gulp.dest(PATHS.dist))
 }

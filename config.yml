@@ -1,6 +1,17 @@
 # Browsersync port
 PORT: 8080
 
+# Purgecss settings
+PURGECSS:
+  whitelist:
+  - "w-100"
+  - "vw-100"
+  whitelistPatterns:
+    - /row$/
+    - /text$/
+  whitelistPatternsChildren:
+    - /container$/
+
 # Gulp path references
 PATHS:
   # Path to "dist" folder
