@@ -43,6 +43,7 @@ function css () {
     .pipe(sass({ includePaths: PATHS.sassLibs }).on('error', sass.logError))
     .pipe(gulpif(PRODUCTION, postcss([autoprefixer(), cssnano()])))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
+    .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
     .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
 }
 
@@ -107,6 +108,7 @@ function js () {
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulpif(PRODUCTION, uglify()))
+    .pipe(gulp.src(PATHS.additionalJsFiles2Copy, { since: gulp.lastRun(js) }))
     .pipe(gulp.dest(`${PATHS.dist}/assets/js`))
 }
 
@@ -153,7 +155,7 @@ function liveReload (done) {
 function watchFiles (done) {
   gulp.watch(PATHS.assets, copyAssets)
   gulp.watch(PATHS.staticFiles, copyStaticFiles)
-  gulp.watch('src/assets/scss/**/*.scss', gulp.series(css, liveReload))
+  gulp.watch('src/assets/scss/**/*.{css,scss}', gulp.series(css, liveReload))
   gulp.watch('src/assets/js/**/*.js', gulp.series(js, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
   gulp.watch(['src/**/*.{html,md,njk}', 'src/**/*.json'], liveReload)
