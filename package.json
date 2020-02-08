@@ -24,7 +24,9 @@
     "eleventy:watch": "eleventy --quiet --watch || exit 0",
     "eleventy:build": "eleventy || exit 0",
     "gulp:dev": "gulp --silent || exit 0",
-    "gulp:build": "cross-env NODE_ENV=production gulp build || exit 0"
+    "gulp:build": "cross-env NODE_ENV=production gulp build || exit 0",
+    "fix-css": "stylelint \"src/**/*.{css,scss}\" --fix || exit 0",
+    "fix-js": "eslint \"src/**/*.js\" --fix || exit 0"
   },
   "dependencies": {},
   "devDependencies": {
