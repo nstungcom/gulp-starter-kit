@@ -23,7 +23,6 @@ import purgecss from 'gulp-purgecss'
 import gzip from 'gulp-gzip'
 import RevAll from 'gulp-rev-all'
 import RevDelete from 'gulp-rev-delete-original'
-const critical = require('critical').stream
 
 // Check for "--production" flag
 const PRODUCTION = !!(process.env.NODE_ENV === 'production')
@@ -52,14 +51,6 @@ function stylelint (done) {
   return gulp.src('src/**/*.{css,scss}')
     .pipe(gulpStylelint({ reporters: [{ formatter: 'string', console: true }] })
       .on('error', done))
-}
-
-// Create critical CSS
-function criticalCSS () {
-  return gulp.src(`${PATHS.dist}/**/*.html`)
-    .pipe(critical({ base: PATHS.dist, inline: true, css: [`${PATHS.dist}/assets/css/app.css`] })
-      .on('error', function (err) { console.error(err.message) }))
-    .pipe(gulp.dest(PATHS.dist))
 }
 
 // Remove unused CSS
@@ -170,5 +161,5 @@ exports.default = gulp.series(
 exports.build = gulp.series(
   eslint, stylelint,
   gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
-  criticalCSS, cleanUnusedCSS, revFiles, compressAssets
+  cleanUnusedCSS, revFiles, compressAssets
 )
