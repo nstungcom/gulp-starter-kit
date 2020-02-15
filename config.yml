@@ -4,13 +4,12 @@ PORT: 8080
 # Purgecss settings
 PURGECSS:
   whitelist:
-  - "w-100"
-  - "vw-100"
+  - w-100
+  - vw-100
   whitelistPatterns:
-    - /row$/
-    - /text$/
+    - !!js/regexp /order/gm
+    - !!js/regexp /text/gm
   whitelistPatternsChildren:
-    - /container$/
 
 # Gulp path references
 PATHS:
