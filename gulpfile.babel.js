@@ -60,7 +60,7 @@ function cleanUnusedCSS () {
       content: [`${PATHS.dist}/**/*.{html,js}`],
       whitelist: PURGECSS.whitelist,
       whitelistPatterns: PURGECSS.whitelistPatterns,
-      whitelistPatternsChildren: PURGECSS.whitelistPatternsChildren      
+      whitelistPatternsChildren: PURGECSS.whitelistPatternsChildren
     }))
     .pipe(gulp.dest(PATHS.dist))
 }
