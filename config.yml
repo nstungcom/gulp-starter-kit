@@ -34,7 +34,7 @@ PATHS:
     - "src/robots.txt"
     - "src/favicon.ico"
     - "src/.htaccess"
-    - "src/site.webmanifest"
+    #- "src/site.webmanifest"
   # Additional JS files to copy to "dist/assets/js"
   additionalJsFiles2Copy:
     - "src/assets/js/js-copy/**/*.js"
