@@ -4,7 +4,6 @@ import gulpif from 'gulp-if'
 import browserSync from 'browser-sync'
 import sourcemaps from 'gulp-sourcemaps'
 import imagemin from 'gulp-imagemin'
-import imageminGifsicle from 'imagemin-gifsicle'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 import imageminPngquant from 'imagemin-pngquant'
 import yaml from 'js-yaml'
@@ -122,7 +121,6 @@ function images () {
   return gulp.src(PATHS.images)
     .pipe(gulpif(PRODUCTION,
       imagemin([
-        imageminGifsicle({ interlaced: true, optimizationLevel: 3 }),
         imageminMozjpeg({ quality: 80 }),
         imageminPngquant({ quality: [0.5, 0.8] }),
         imagemin.svgo({ plugins: [{ removeViewBox: true }, { cleanupIDs: false }] })

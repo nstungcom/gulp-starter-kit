@@ -71,7 +71,7 @@ Anything you put in here will be copied to `dist/assets` except for these folder
 This folder contains the Font files of your project. Anything you put in here will be copied by default to `dist/assets/fonts`.
 
 `src/assets/img`  
-This folder contains the Image files of your project. Files with these extension `jpg,jpeg,png,gif,svg,webp` will be copied by default to `dist/assets/img`. In production only files with these extension are compressed: `gif,jpg,jpeg,png,svg`.
+This folder contains the Image files of your project. Files with these extension `jpg,jpeg,png,gif,svg,webp` will be copied by default to `dist/assets/img`. In production only files with these extension are compressed: `jpg,jpeg,png,svg`.
 
 `src/assets/js`  
 This folder contains the JavaScript files of your project. By default only `app.js` will be compiled and the output folder is `dist/assets/js`.
