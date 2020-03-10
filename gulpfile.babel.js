@@ -11,10 +11,10 @@ import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
 import cssnano from 'cssnano'
 import autoprefixer from 'autoprefixer'
-import babel from 'babelify'
-import browserify from 'browserify'
-import source from 'vinyl-source-stream'
-import buffer from 'vinyl-buffer'
+import rollup from 'gulp-better-rollup'
+import babel from 'rollup-plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import uglify from 'gulp-uglify'
 import gulpStylelint from 'gulp-stylelint'
 import gulpEslint from 'gulp-eslint'
@@ -90,12 +90,10 @@ function eslint (done) {
 // Compile JS and transform with Babel
 // In production JS is compressed
 function js () {
-  const bundler = browserify('src/assets/js/app.js', { debug: true }).transform(babel)
-  return bundler.bundle()
+  return gulp.src('src/assets/js/app.js')
     .on('error', function (err) { console.error(err.message); this.emit('end') })
-    .pipe(source('app.js'))
-    .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(rollup({ plugins: [resolve(), commonjs(), babel()] }, 'umd'))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulpif(PRODUCTION, uglify()))
     .pipe(gulp.src(PATHS.additionalJsFiles2Copy, { since: gulp.lastRun(js) }))

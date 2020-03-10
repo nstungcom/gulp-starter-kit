@@ -7,5 +7,8 @@ module.exports = {
         corejs: 3
       }
     ]
+  ],
+  ignore: [
+    'node_modules'
   ]
 }

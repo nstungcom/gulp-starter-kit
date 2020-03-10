@@ -35,10 +35,10 @@
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
     "@babel/register": "^7.8.6",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "autoprefixer": "^9.7.4",
-    "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
-    "browserify": "^16.5.0",
     "core-js": "^3.6.4",
     "cross-env": "^7.0.1",
     "cssnano": "^4.1.10",
@@ -50,6 +50,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-better-rollup": "^4.0.1",
     "gulp-eslint": "^6.0.0",
     "gulp-gzip": "^1.4.2",
     "gulp-if": "^3.0.0",
@@ -69,11 +70,11 @@
     "markdown-it": "^10.0.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.4.0",
     "stylelint": "^13.2.0",
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-config-standard": "^20.0.0",
-    "stylelint-scss": "^3.14.2",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
+    "stylelint-scss": "^3.14.2"
   }
 }
