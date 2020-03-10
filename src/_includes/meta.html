@@ -1,0 +1,17 @@
+{%- set absolutePageUrl -%}{{ page.url | url | absoluteUrl(site.url) }}{%- endset -%}
+
+{# Minimal SEO #}
+<meta name="description" content="{{ description or site.description }}">
+<meta property="og:title" content="{{ title or site.title }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:description" content="{{ description or site.description }}">
+<meta property="og:locale" content="{{ site.locale }}">
+<!-- <meta property="og:url" content="{{ absolutePageUrl }}"> -->
+<meta name="twitter:card" content="summary">
+<meta name="author" content="{{ site.author }}">
+<meta name="theme-color" content="#cf4647">
+
+{# Minimal favicon #}
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="manifest" href="/site.webmanifest"> -->
+<!-- <link rel="canonical" href="{{ absolutePageUrl }}"> -->

@@ -1,6 +1,16 @@
 # Browsersync port
 PORT: 8080
 
+# Purgecss settings
+PURGECSS:
+  whitelist:
+  - w-100
+  - vw-100
+  whitelistPatterns:
+    - !!js/regexp /order/gm
+    - !!js/regexp /text/gm
+  whitelistPatternsChildren:
+
 # Gulp path references
 PATHS:
   # Path to "dist" folder
@@ -24,4 +34,12 @@ PATHS:
     - "src/robots.txt"
     - "src/favicon.ico"
     - "src/.htaccess"
-    - "src/site.webmanifest"
+    #- "src/site.webmanifest"
+  # Additional JS files to copy to "dist/assets/js"
+  additionalJsFiles2Copy:
+    - "src/assets/js/js-copy/**/*.js"
+    #- "node_modules/bootstrap/dist/js/*.js"
+  # Additional CSS files to copy to "dist/assets/css"
+  additionalCssFiles2Copy:
+    - "src/assets/scss/css-copy/**/*.css"
+    #- "node_modules/bootstrap/dist/css/*.css"

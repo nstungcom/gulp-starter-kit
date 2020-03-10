@@ -1,16 +1,11 @@
 import gulp from 'gulp'
-import fs from 'fs-extra'
+import fs from 'fs'
 import gulpif from 'gulp-if'
-import yargs from 'yargs'
 import browserSync from 'browser-sync'
 import sourcemaps from 'gulp-sourcemaps'
 import imagemin from 'gulp-imagemin'
-import imageminGifsicle from 'imagemin-gifsicle'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 import imageminPngquant from 'imagemin-pngquant'
-import nunjucksRender from 'gulp-nunjucks-render'
-import data from 'gulp-data'
-import beautify from 'gulp-jsbeautifier'
 import yaml from 'js-yaml'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
@@ -27,23 +22,16 @@ import purgecss from 'gulp-purgecss'
 import gzip from 'gulp-gzip'
 import RevAll from 'gulp-rev-all'
 import RevDelete from 'gulp-rev-delete-original'
-const critical = require('critical').stream
 
 // Check for "--production" flag
-const PRODUCTION = !!(yargs.argv.production)
+const PRODUCTION = !!(process.env.NODE_ENV === 'production')
 
 // Load settings from config.yml file
 function loadConfig () {
   const configFile = fs.readFileSync('config.yml')
   return yaml.load(configFile)
 }
-const { PATHS, PORT } = loadConfig()
-
-// Remove the "dist" folder
-function cleanUp (done) {
-  fs.removeSync(PATHS.dist)
-  done()
-}
+const { PATHS, PORT, PURGECSS } = loadConfig()
 
 // Compile SCSS into CSS
 // In production CSS is prefixed and compressed
@@ -53,6 +41,7 @@ function css () {
     .pipe(sass({ includePaths: PATHS.sassLibs }).on('error', sass.logError))
     .pipe(gulpif(PRODUCTION, postcss([autoprefixer(), cssnano()])))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
+    .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
     .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
 }
 
@@ -63,19 +52,14 @@ function stylelint (done) {
       .on('error', done))
 }
 
-// Create critical CSS
-function criticalCSS () {
-  return gulp.src(`${PATHS.dist}/**/*.html`)
-    .pipe(critical({ base: PATHS.dist, inline: true, css: [`${PATHS.dist}/assets/css/app.css`] })
-      .on('error', function (err) { console.error(err.message) }))
-    .pipe(gulp.dest(PATHS.dist))
-}
-
 // Remove unused CSS
 function cleanUnusedCSS () {
   return gulp.src(`${PATHS.dist}/**/*.css`)
     .pipe(purgecss({
-      content: [`${PATHS.dist}/**/*.{html,js}`]
+      content: [`${PATHS.dist}/**/*.{html,js}`],
+      whitelist: PURGECSS.whitelist,
+      whitelistPatterns: PURGECSS.whitelistPatterns,
+      whitelistPatternsChildren: PURGECSS.whitelistPatternsChildren
     }))
     .pipe(gulp.dest(PATHS.dist))
 }
@@ -90,7 +74,7 @@ function compressAssets () {
 // Revisioning files
 function revFiles () {
   return gulp.src(`${PATHS.dist}/**/*.{css,html,js}`)
-    .pipe(RevAll.revision({ dontRenameFile: [/.html/g], dontUpdateReference: ['.html'] }))
+    .pipe(RevAll.revision({ dontRenameFile: ['.html'], dontUpdateReference: ['.html'] }))
     .pipe(RevDelete())
     .pipe(gulp.dest(PATHS.dist))
 }
@@ -114,29 +98,8 @@ function js () {
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulpif(PRODUCTION, uglify()))
+    .pipe(gulp.src(PATHS.additionalJsFiles2Copy, { since: gulp.lastRun(js) }))
     .pipe(gulp.dest(`${PATHS.dist}/assets/js`))
-}
-
-// Compile Nunjucks into HTML
-// but skips the "layouts", "partials" & "macros" folder
-function html () {
-  return gulp.src(
-    [
-      'src/pages/**/*.html',
-      '!src/pages/layouts/**',
-      '!src/pages/partials/**',
-      '!src/pages/macros/**'
-    ])
-    .pipe(data(() => yaml.safeLoad(fs.readFileSync('src/data/data.yml'))))
-    .pipe(nunjucksRender({ path: 'src/pages' }))
-    .pipe(beautify({
-      html: {
-        indent_size: 2,
-        indent_char: ' ',
-        max_preserve_newlines: 1
-      }
-    }))
-    .pipe(gulp.dest(PATHS.dist))
 }
 
 // Copy files from the "src/assets" folder
@@ -158,7 +121,6 @@ function images () {
   return gulp.src(PATHS.images)
     .pipe(gulpif(PRODUCTION,
       imagemin([
-        imageminGifsicle({ interlaced: true, optimizationLevel: 3 }),
         imageminMozjpeg({ quality: 80 }),
         imageminPngquant({ quality: [0.5, 0.8] }),
         imagemin.svgo({ plugins: [{ removeViewBox: true }, { cleanupIDs: false }] })
@@ -182,22 +144,20 @@ function liveReload (done) {
 function watchFiles (done) {
   gulp.watch(PATHS.assets, copyAssets)
   gulp.watch(PATHS.staticFiles, copyStaticFiles)
-  gulp.watch('src/assets/scss/**/*.scss', gulp.series(css, liveReload))
+  gulp.watch('src/assets/scss/**/*.{css,scss}', gulp.series(css, liveReload))
   gulp.watch('src/assets/js/**/*.js', gulp.series(js, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
-  gulp.watch(['src/pages/**/*.html', 'src/data/**/*.yml'], gulp.series(html, liveReload))
+  gulp.watch(['src/**/*.{html,md,njk}', 'src/**/*.json'], liveReload)
   done()
 }
 
 // Export tasks which can be used later with "gulp taskname"
-exports.cleanUp = cleanUp
-exports.development = gulp.series(
-  cleanUp,
-  gulp.parallel(html, copyAssets, copyStaticFiles, images, css, js),
+exports.default = gulp.series(
+  gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
   server, watchFiles
 )
 exports.build = gulp.series(
-  cleanUp, stylelint, eslint,
-  gulp.parallel(copyAssets, copyStaticFiles, images, html, css, js),
-  criticalCSS, cleanUnusedCSS, revFiles, compressAssets
+  eslint, stylelint,
+  gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
+  cleanUnusedCSS, revFiles, compressAssets
 )

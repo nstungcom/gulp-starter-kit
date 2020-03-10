@@ -37,5 +37,6 @@ Synchronize clicks, scrolls, forms and live-reload across multiple devices as yo
 
 ### Quick start guides:
 - [Documentation](docs/README.md)
+- Eleventy: https://www.11ty.dev/docs/
 - YAML: https://learnxinyminutes.com/docs/yaml/
 - Nunjucks: https://mozilla.github.io/nunjucks/templating.html
