@@ -93,7 +93,7 @@ function js () {
   return gulp.src('src/assets/js/app.js')
     .on('error', function (err) { console.error(err.message); this.emit('end') })
     .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(rollup({ plugins: [resolve(), commonjs(), babel()] }, 'umd'))
+    .pipe(rollup({ plugins: [resolve(), commonjs(), babel({ exclude: 'node_modules/**' })] }, 'umd'))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulpif(PRODUCTION, uglify()))
     .pipe(gulp.src(PATHS.additionalJsFiles2Copy, { since: gulp.lastRun(js) }))
