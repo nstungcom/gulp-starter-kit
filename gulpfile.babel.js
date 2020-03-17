@@ -48,7 +48,7 @@ function css () {
 // Stylelint for CSS & SCSS
 function stylelint (done) {
   return gulp.src('src/**/*.{css,scss}')
-    .pipe(gulpStylelint({ reporters: [{ formatter: 'string', console: true }] })
+    .pipe(gulpStylelint({ failAfterError: true, reporters: [{ formatter: 'string', console: true }] })
       .on('error', done))
 }
 
@@ -91,8 +91,7 @@ function eslint (done) {
 // In production JS is compressed
 function js () {
   return gulp.src('src/assets/js/app.js')
-    .on('error', function (err) { console.error(err.message); this.emit('end') })
-    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.init())
     .pipe(rollup({ plugins: [resolve(), commonjs(), babel({ exclude: 'node_modules/**' })] }, 'umd'))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulpif(PRODUCTION, uglify()))
@@ -129,7 +128,7 @@ function images () {
 // Start a server with Browsersync
 function server (done) {
   browserSync.init({
-    server: PATHS.dist, port: PORT, open: false
+    server: PATHS.dist, port: PORT, open: false, notify: false
   }, done)
 }
 // Reload the browser with Browsersync
@@ -142,8 +141,8 @@ function liveReload (done) {
 function watchFiles (done) {
   gulp.watch(PATHS.assets, copyAssets)
   gulp.watch(PATHS.staticFiles, copyStaticFiles)
-  gulp.watch('src/assets/scss/**/*.{css,scss}', gulp.series(css, liveReload))
-  gulp.watch('src/assets/js/**/*.js', gulp.series(js, liveReload))
+  gulp.watch('src/assets/scss/**/*.{css,scss}', gulp.series(css, stylelint, liveReload))
+  gulp.watch('src/assets/js/**/*.js', gulp.series(js, eslint, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
   gulp.watch(['src/**/*.{html,md,njk}', 'src/**/*.json'], liveReload)
   done()
@@ -151,6 +150,7 @@ function watchFiles (done) {
 
 // Export tasks which can be used later with "gulp taskname"
 exports.default = gulp.series(
+  eslint, stylelint,
   gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
   server, watchFiles
 )
