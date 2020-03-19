@@ -19,14 +19,14 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "dev": "npm-run-all clean --parallel eleventy:watch gulp:dev || exit 0",
+    "dev": "npm-run-all clean --parallel eleventy:watch gulp:dev",
     "build": "npm-run-all clean --parallel eleventy:build gulp:build",
-    "eleventy:watch": "eleventy --quiet --watch || exit 0",
-    "eleventy:build": "eleventy || exit 0",
-    "gulp:dev": "gulp --silent || exit 0",
-    "gulp:build": "cross-env NODE_ENV=production gulp build || exit 0",
-    "fix-css": "stylelint \"src/**/*.{css,scss}\" --fix || exit 0",
-    "fix-js": "eslint \"src/**/*.js\" --fix || exit 0"
+    "eleventy:watch": "eleventy --quiet --watch",
+    "eleventy:build": "eleventy",
+    "gulp:dev": "gulp --silent",
+    "gulp:build": "cross-env NODE_ENV=production gulp build",
+    "fix-css": "stylelint \"src/**/*.{css,scss}\" --fix",
+    "fix-js": "eslint \"src/**/*.js\" --fix"
   },
   "dependencies": {},
   "devDependencies": {
