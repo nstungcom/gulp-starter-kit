@@ -9,7 +9,7 @@ import imageminPngquant from 'imagemin-pngquant'
 import yaml from 'js-yaml'
 import sass from 'gulp-sass'
 import postcss from 'gulp-postcss'
-import cssnano from 'cssnano'
+import cleancss from 'gulp-clean-css'
 import autoprefixer from 'autoprefixer'
 import rollup from 'gulp-better-rollup'
 import babel from 'rollup-plugin-babel'
@@ -39,7 +39,6 @@ function css () {
   return gulp.src('src/assets/scss/app.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({ includePaths: PATHS.sassLibs }).on('error', sass.logError))
-    .pipe(gulpif(PRODUCTION, postcss([autoprefixer(), cssnano()])))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
     .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
@@ -55,6 +54,8 @@ function stylelint (done) {
 // Remove unused CSS
 function cleanUnusedCSS () {
   return gulp.src(`${PATHS.dist}/**/*.css`)
+    .pipe(postcss([autoprefixer({ cascade: false })]))
+    .pipe(cleancss())
     .pipe(purgecss({
       content: [`${PATHS.dist}/**/*.{html,js}`],
       whitelist: PURGECSS.whitelist,
