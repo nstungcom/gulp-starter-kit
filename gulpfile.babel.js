@@ -15,7 +15,7 @@ import rollup from 'gulp-better-rollup'
 import babel from 'rollup-plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import uglify from 'gulp-uglify'
+import { terser } from 'rollup-plugin-terser'
 import gulpStylelint from 'gulp-stylelint'
 import gulpEslint from 'gulp-eslint'
 import purgecss from 'gulp-purgecss'
@@ -55,7 +55,7 @@ function stylelint (done) {
 function cleanUnusedCSS () {
   return gulp.src(`${PATHS.dist}/**/*.css`)
     .pipe(postcss([autoprefixer({ cascade: false })]))
-    .pipe(cleancss())
+    .pipe(cleancss({ level: { 1: { specialComments: false } } }))
     .pipe(purgecss({
       content: [`${PATHS.dist}/**/*.{html,js}`],
       whitelist: PURGECSS.whitelist,
@@ -91,11 +91,16 @@ function eslint (done) {
 // Compile JS and transform with Babel
 // In production JS is compressed
 function js () {
+  const rollupPlugins = [resolve(), commonjs(), babel({ exclude: 'node_modules/**' })]
+
+  if (PRODUCTION) {
+    rollupPlugins.push(terser({ output: { comments: false } }))
+  }
+
   return gulp.src('src/assets/js/app.js')
     .pipe(sourcemaps.init())
-    .pipe(rollup({ plugins: [resolve(), commonjs(), babel({ exclude: 'node_modules/**' })] }, 'umd'))
+    .pipe(rollup({ plugins: rollupPlugins }, 'umd'))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
-    .pipe(gulpif(PRODUCTION, uglify()))
     .pipe(gulp.src(PATHS.additionalJsFiles2Copy, { since: gulp.lastRun(js) }))
     .pipe(gulp.dest(`${PATHS.dist}/assets/js`))
 }
