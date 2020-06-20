@@ -1,10 +1,16 @@
 const jsBeautifierHtml = require('js-beautify').html
-const markdownIt = require('markdown-it');
-const pluginRss = require('@11ty/eleventy-plugin-rss');
+const markdownIt = require('markdown-it')
+const pluginRss = require('@11ty/eleventy-plugin-rss')
 
-module.exports = function(eleventyConfig) {
+// Load settings from `config.js` file
+const loadConfig = () => {
+  return require('./config.js')
+}
+const { PATHS } = loadConfig()
+
+module.exports = (eleventyConfig) => {
   // Plugins
-  eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addPlugin(pluginRss)
 
   // Markdown Parsing
   eleventyConfig.setLibrary(
@@ -17,7 +23,7 @@ module.exports = function(eleventyConfig) {
   )
 
   // Beautifier HTML Output
-  eleventyConfig.addTransform('htmlbeautifier', function(content, outputPath) {
+  eleventyConfig.addTransform('htmlbeautifier', (content, outputPath) => {
     if (outputPath.endsWith('.html')) {
       return jsBeautifierHtml(content, {
         indent_size: 2,
@@ -31,7 +37,7 @@ module.exports = function(eleventyConfig) {
   return {
     dir: {
       input: 'src',
-      output: 'dist',
+      output: PATHS.dist
     },
     templateFormats: ['html', 'njk', 'md'],
     htmlTemplateEngine: 'njk',
