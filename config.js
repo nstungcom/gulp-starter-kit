@@ -41,15 +41,9 @@ module.exports = {
     ],
 
     // Additional JS files to copy to "dist/assets/js"
-    additionalJsFiles2Copy: [
-      'src/assets/js/js-copy/**/*.js',
-      'node_modules/bootstrap/dist/js/*.js'
-    ],
+    additionalJsFiles2Copy: ['src/assets/js/js-copy/**/*.js'],
 
     // Additional CSS files to copy to "dist/assets/css"
-    additionalCssFiles2Copy: [
-      'src/assets/scss/css-copy/**/*.css',
-      'node_modules/bootstrap/dist/css/*.css'
-    ]
+    additionalCssFiles2Copy: ['src/assets/scss/css-copy/**/*.css']
   }
 }
