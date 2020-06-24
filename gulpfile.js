@@ -27,10 +27,9 @@ const babel = require('rollup-plugin-babel')
 const resolve = require('@rollup/plugin-node-resolve').nodeResolve
 const commonjs = require('@rollup/plugin-commonjs')
 const { terser } = require('rollup-plugin-terser')
-const argv = require('minimist')
 
-// Check for `--production` flag
-const PRODUCTION = !!argv(process.argv.slice(2))
+// Check for `production` flag
+const PRODUCTION = !!(process.env.NODE_ENV === 'production')
 
 // Load settings from `config.js` file
 const loadConfig = () => {
@@ -53,7 +52,7 @@ const stylelint = (done) => {
   )
 }
 
-// Compile SCSS to CSS & copy additional CSS files which can be defined in `config.yml`
+// Compile SCSS to CSS & copy additional CSS files which can be defined in `config.js`
 const css = () => {
   return gulp
     .src('src/assets/scss/app.scss')
@@ -112,7 +111,7 @@ const eslint = () => {
 }
 
 // Compile JS and transform with Babel
-// Copy additional JS files which can be defined in `config.yml`
+// Copy additional JS files which can be defined in `config.js`
 // When `--production` flag is set the js file will be compressed
 const js = () => {
   const rollupPlugins = [
@@ -201,15 +200,15 @@ const watchFiles = () => {
 }
 
 // Make tasks public which then can be run with the `gulp` command
-exports.clean = clean
-exports.default = gulp.series(
+module.exports.clean = clean
+module.exports.default = gulp.series(
   stylelint,
   eslint,
   gulp.parallel(css, js),
   server,
   watchFiles
 )
-exports.build = gulp.series(
+module.exports.build = gulp.series(
   eslint,
   stylelint,
   gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
