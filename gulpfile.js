@@ -204,7 +204,7 @@ module.exports.clean = clean
 module.exports.default = gulp.series(
   stylelint,
   eslint,
-  gulp.parallel(css, js),
+  gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
   server,
   watchFiles
 )
