@@ -13,20 +13,18 @@ const postcss = require('gulp-postcss')
 const cleancss = require('gulp-clean-css')
 const purgecss = require('gulp-purgecss')
 const imagemin = require('gulp-imagemin')
-const gulpEslint = require('gulp-eslint')
+const gulpEslint = require('gulp-eslint7')
 const rollup = require('gulp-better-rollup')
-const revAll = require('gulp-rev-all')
-const revDelete = require('gulp-rev-delete-original')
-const gzip = require('gulp-gzip')
 const rimraf = require('rimraf')
 const browsersync = require('browser-sync')
 const autoprefixer = require('autoprefixer')
 const imageminMozjpeg = require('imagemin-mozjpeg')
 const imageminPngquant = require('imagemin-pngquant')
 const babel = require('rollup-plugin-babel')
-const resolve = require('@rollup/plugin-node-resolve').nodeResolve
+const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const commonjs = require('@rollup/plugin-commonjs')
 const { terser } = require('rollup-plugin-terser')
+const gulpRename = require('gulp-rename')
 
 // Check for `production` flag
 const PRODUCTION = !!(process.env.NODE_ENV === 'production')
@@ -46,7 +44,6 @@ const clean = (done) => {
 const stylelint = (done) => {
   return gulp.src('src/**/*.{css,scss}').pipe(
     gulpStylelint({
-      failAfterError: true,
       reporters: [{ formatter: 'string', console: true }]
     }).on('error', done)
   )
@@ -57,10 +54,11 @@ const css = () => {
   return gulp
     .src('src/assets/scss/app.scss')
     .pipe(sourcemaps.init())
-    .pipe(sass({ includePaths: PATHS.sassLibs }).on('error', sass.logError))
-    .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
+    .pipe(gulpif(!PRODUCTION, sourcemaps.write('.', { sourceRoot: '../../../src/scss' })))
     .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
+    .pipe(browsersync.stream())
 }
 
 // Remove unused CSS
@@ -80,28 +78,6 @@ const cleanCSS = () => {
     .pipe(gulp.dest(PATHS.dist))
 }
 
-// Compress assets
-const compressAssets = () => {
-  return gulp
-    .src(`${PATHS.dist}/**/*.{css,js,html}`)
-    .pipe(gzip({ extension: 'gzip' }))
-    .pipe(gulp.dest(PATHS.dist))
-}
-
-// Revisioning files
-const revFiles = () => {
-  return gulp
-    .src(`${PATHS.dist}/**/*.{css,html,js}`)
-    .pipe(
-      revAll.revision({
-        dontRenameFile: ['.html'],
-        dontUpdateReference: ['.html']
-      })
-    )
-    .pipe(revDelete())
-    .pipe(gulp.dest(PATHS.dist))
-}
-
 // Eslint for JS
 const eslint = () => {
   return gulp
@@ -115,7 +91,7 @@ const eslint = () => {
 // When `--production` flag is set the js file will be compressed
 const js = () => {
   const rollupPlugins = [
-    resolve(),
+    nodeResolve(),
     commonjs(),
     babel({ exclude: 'node_modules/**' })
   ]
@@ -192,7 +168,7 @@ const watchFiles = () => {
   gulp.watch(PATHS.staticFiles, copyStaticFiles)
   gulp.watch(
     'src/assets/scss/**/*.{css,scss}',
-    gulp.series(stylelint, css, liveReload)
+    gulp.series(stylelint, css)
   )
   gulp.watch('src/assets/js/**/*.js', gulp.series(eslint, js, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
@@ -212,7 +188,5 @@ module.exports.build = gulp.series(
   eslint,
   stylelint,
   gulp.parallel(copyAssets, copyStaticFiles, images, css, js),
-  cleanCSS,
-  revFiles,
-  compressAssets
+  cleanCSS
 )
