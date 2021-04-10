@@ -1,6 +1,5 @@
 const jsBeautifierHtml = require('js-beautify').html
 const markdownIt = require('markdown-it')
-const pluginRss = require('@11ty/eleventy-plugin-rss')
 
 // Load settings from `config.js` file
 const loadConfig = () => {
@@ -9,9 +8,6 @@ const loadConfig = () => {
 const { PATHS } = loadConfig()
 
 module.exports = (eleventyConfig) => {
-  // Plugins
-  eleventyConfig.addPlugin(pluginRss)
-
   // Markdown Parsing
   eleventyConfig.setLibrary(
     'md',
