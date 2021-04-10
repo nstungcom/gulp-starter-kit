@@ -14,15 +14,6 @@ module.exports = {
     // Path to `dist` folder
     dist: 'dist',
 
-    // Paths to Sass libraries, which can then be loaded with @import
-    // without the need for the full path `node_modules/..` everytime
-    sassLibs: [
-      'node_modules/foundation-sites/scss',
-      'node_modules/motion-ui/src',
-      'node_modules/bootstrap/scss',
-      'node_modules/uikit/src/scss'
-    ],
-
     // Path to static assets & ignore some folders
     assets: ['src/assets/**/*', '!src/assets/{img,js,scss}/**'],
 
