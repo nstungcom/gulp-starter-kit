@@ -1,8 +1,6 @@
 {
   "title": "Gulp Starter Kit",
   "description": "Gulp Starter Kit for front-end developer which supports: SCSS, Nunjucks, Babel + auto polyfill, Browserify & Browsersync.",
-  "author": "Son Tung Ngo",
   "lang": "en",
-  "locale": "en_US",
-  "url": "http://localhost:8080"
+  "locale": "en_US"
 }
