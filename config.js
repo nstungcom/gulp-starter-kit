@@ -15,7 +15,7 @@ module.exports = {
     dist: 'dist',
 
     // Path to static assets & ignore some folders
-    assets: ['src/assets/**/*', '!src/assets/{img,js,scss}/**'],
+    assets: ['src/assets/**/*', '!src/assets/{img,js,css}/**'],
 
     // Path to images & ignore some folders
     images: [
@@ -35,6 +35,6 @@ module.exports = {
     additionalJsFiles2Copy: ['src/assets/js/js-copy/**/*.js'],
 
     // Additional CSS files to copy to "dist/assets/css"
-    additionalCssFiles2Copy: ['src/assets/scss/css-copy/**/*.css']
+    additionalCssFiles2Copy: ['src/assets/css/css-copy/**/*.css']
   }
 }
