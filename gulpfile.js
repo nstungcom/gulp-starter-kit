@@ -1,39 +1,30 @@
-/*
- * This file is part of the package @nstungcom/gulp-starter-kit.
- *
- * For the full copyright and license information, please read the
- * LICENSE file that was distributed with this source code.
- */
+// Import plugins and required libraries
 const gulp = require('gulp')
 const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
-const sass = require('gulp-sass')
+const gulpSass = require('gulp-sass')
 const gulpStylelint = require('gulp-stylelint')
-const postcss = require('gulp-postcss')
-const cleancss = require('gulp-clean-css')
-const purgecss = require('gulp-purgecss')
-const imagemin = require('gulp-imagemin')
+const gulpPostcss = require('gulp-postcss')
+const gulpCleancss = require('gulp-clean-css')
+const gulpPurgecss = require('gulp-purgecss')
+const gulpImagemin = require('gulp-imagemin')
 const gulpEslint = require('gulp-eslint7')
-const rollup = require('gulp-better-rollup')
+const gulpRollup = require('gulp-better-rollup')
 const rimraf = require('rimraf')
 const browsersync = require('browser-sync')
 const autoprefixer = require('autoprefixer')
 const imageminMozjpeg = require('imagemin-mozjpeg')
 const imageminPngquant = require('imagemin-pngquant')
 const babel = require('rollup-plugin-babel')
-const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const commonjs = require('@rollup/plugin-commonjs')
+const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const { terser } = require('rollup-plugin-terser')
-const gulpRename = require('gulp-rename')
 
 // Check for `production` flag
-const PRODUCTION = !!(process.env.NODE_ENV === 'production')
+const PRODUCTION = process.env.NODE_ENV === 'production'
 
 // Load settings from `config.js` file
-const loadConfig = () => {
-  return require('./config.js')
-}
-const { PATHS, PORT, PURGECSS } = loadConfig()
+const { PATHS, PORT, PURGECSS } = require('./config.js')
 
 // Remove the `dist` folder
 const clean = (done) => {
@@ -41,34 +32,33 @@ const clean = (done) => {
 }
 
 // Stylelint for CSS & SCSS
-const stylelint = (done) => {
-  return gulp.src('src/**/*.{css,scss}').pipe(
+const stylelint = (done) =>
+  gulp.src('src/**/*.{css,scss}').pipe(
     gulpStylelint({
       reporters: [{ formatter: 'string', console: true }]
     }).on('error', done)
   )
-}
 
 // Compile SCSS to CSS & copy additional CSS files which can be defined in `config.js`
-const css = () => {
-  return gulp
-    .src('src/assets/scss/app.scss')
+const css = () =>
+  gulp
+    .src('src/assets/css/app.scss')
     .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
+    .pipe(gulpSass().on('error', gulpSass.logError))
+    .pipe(gulpPostcss([autoprefixer()]))
     .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
-    .pipe(gulpif(!PRODUCTION, sourcemaps.write('.', { sourceRoot: '../../../src/scss' })))
+    .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
     .pipe(browsersync.stream())
-}
 
 // Remove unused CSS
-const cleanCSS = () => {
-  return gulp
-    .src(`${PATHS.dist}/**/*.css`)
-    .pipe(postcss([autoprefixer({ cascade: false })]))
-    .pipe(cleancss({ level: { 1: { specialComments: false } } }))
+const cleanCSS = () =>
+  gulp
+    .src([`${PATHS.dist}/**/*.css`, `!${PATHS.dist}/**/*min.css`])
+    .pipe(gulpPostcss([autoprefixer()]))
+    .pipe(gulpCleancss({ level: { 1: { specialComments: false } } }))
     .pipe(
-      purgecss({
+      gulpPurgecss({
         content: [`${PATHS.dist}/**/*.{html,js}`],
         whitelist: PURGECSS.whitelist,
         whitelistPatterns: PURGECSS.whitelistPatterns,
@@ -76,19 +66,14 @@ const cleanCSS = () => {
       })
     )
     .pipe(gulp.dest(PATHS.dist))
-}
 
 // Eslint for JS
-const eslint = () => {
-  return gulp
-    .src('src/**/*.js')
-    .pipe(gulpEslint())
-    .pipe(gulpEslint.format('stylish'))
-}
+const eslint = () =>
+  gulp.src('src/**/*.js').pipe(gulpEslint()).pipe(gulpEslint.failOnError())
 
 // Compile JS and transform with Babel
 // Copy additional JS files which can be defined in `config.js`
-// When `--production` flag is set the js file will be compressed
+// When `production` flag is set the JS files will be compressed
 const js = () => {
   const rollupPlugins = [
     nodeResolve(),
@@ -103,45 +88,40 @@ const js = () => {
   return gulp
     .src('src/assets/js/app.js')
     .pipe(sourcemaps.init())
-    .pipe(rollup({ plugins: rollupPlugins }, 'iife'))
-    .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
+    .pipe(gulpRollup({ plugins: rollupPlugins }, 'iife'))
     .pipe(gulp.src(PATHS.additionalJsFiles2Copy, { since: gulp.lastRun(js) }))
+    .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulp.dest(`${PATHS.dist}/assets/js`))
 }
 
 // Copy files from the `src/assets` to "dist" folder
-const copyAssets = () => {
-  return gulp
+const copyAssets = () =>
+  gulp
     .src(PATHS.assets, { nodir: true })
     .pipe(gulp.dest(`${PATHS.dist}/assets`))
-}
 
 // Copy static files from `src` to `dist` folder
-const copyStaticFiles = () => {
-  return gulp
-    .src(PATHS.staticFiles, { allowEmpty: true })
-    .pipe(gulp.dest(PATHS.dist))
-}
+const copyStaticFiles = () =>
+  gulp.src(PATHS.staticFiles, { allowEmpty: true }).pipe(gulp.dest(PATHS.dist))
 
 // Copy images
-// When `--production` flag is set the images will be compressed
-const images = () => {
-  return gulp
+// When `production` flag is set the images will be compressed
+const images = () =>
+  gulp
     .src(PATHS.images)
     .pipe(
       gulpif(
         PRODUCTION,
-        imagemin([
-          imageminMozjpeg({ quality: 80 }),
-          imageminPngquant({ quality: [0.5, 0.8] }),
-          imagemin.svgo({
+        gulpImagemin([
+          imageminMozjpeg({ quality: 90 }),
+          imageminPngquant({ quality: [0.8, 0.9] }),
+          gulpImagemin.svgo({
             plugins: [{ removeViewBox: true }, { cleanupIDs: false }]
           })
         ])
       )
     )
     .pipe(gulp.dest(`${PATHS.dist}/assets`))
-}
 
 // Start a http server with browsersync
 const server = (done) => {
@@ -166,17 +146,18 @@ const liveReload = (done) => {
 const watchFiles = () => {
   gulp.watch(PATHS.assets, copyAssets)
   gulp.watch(PATHS.staticFiles, copyStaticFiles)
-  gulp.watch(
-    'src/assets/scss/**/*.{css,scss}',
-    gulp.series(stylelint, css)
-  )
+  gulp.watch('src/assets/css/**/*.{css,scss}', gulp.series(stylelint, css))
   gulp.watch('src/assets/js/**/*.js', gulp.series(eslint, js, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
   gulp.watch(['src/**/*.{html,md,njk}', 'src/**/*.json'], liveReload)
 }
 
 // Make tasks public which then can be run with the `gulp` command
+// It's still recommended to run tasks with npm scripts `npm <srcript_name>`
+// Take a look at `package.json` file for more information
 module.exports.clean = clean
+module.exports.css = gulp.series(stylelint, css, cleanCSS)
+module.exports.js = gulp.series(eslint, js)
 module.exports.default = gulp.series(
   stylelint,
   eslint,
