@@ -57,7 +57,7 @@ module.exports = (eleventyConfig) => {
       input: 'src',
       output: PATHS.dist
     },
-    templateFormats: ['html', 'njk', 'md'],
+    dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     markdownTemplateEngine: 'njk',
     passthroughFileCopy: true
