@@ -34,8 +34,8 @@
     "gulp-build": "cross-env NODE_ENV=production gulp build",
     "gulp-build-css": "cross-env NODE_ENV=production gulp css",
     "gulp-build-js": "cross-env NODE_ENV=production gulp js",
-    "prettier-check": "prettier --check src",
-    "prettier-fix": "prettier --write src",
+    "prettier-check": "prettier --check .",
+    "prettier-fix": "prettier --write .",
     "prepare": "husky install",
     "test": "npm-run-all prettier-check -p lint-css lint-js"
   },
