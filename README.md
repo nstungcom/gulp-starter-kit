@@ -15,7 +15,7 @@
 
 ## Gulp Starter Kit
 
-![CI workflow](https://github.com/nstungcom/gulp-starter-kit/actions/workflows/main.yml/badge.svg) [![Gulp v4.0.2](https://img.shields.io/badge/gulp-v4.0.2-brightgreen.svg)](https://www.npmjs.com/package/gulp) [![rollup v2.52.0](https://img.shields.io/badge/rollup-%3E%3D%20v2.52.x-brightgreen.svg)](https://www.npmjs.com/package/gulp) [![Node.js 12.22.1](https://img.shields.io/badge/node-%3E%3D%20v12.22.x-brightgreen)](https://nodejs.org)
+[![CI workflow](https://github.com/nstungcom/gulp-starter-kit/actions/workflows/main.yml/badge.svg)](https://github.com/nstungcom/gulp-starter-kit/actions) [![Gulp v4.0.2](https://img.shields.io/badge/gulp-v4.0.2-brightgreen.svg)](https://gulpjs.com/) [![rollup v2.52.0](https://img.shields.io/badge/rollup-%3E%3D%20v2.52.x-brightgreen.svg)](https://rollupjs.org/) [![Node.js 12.22.1](https://img.shields.io/badge/node-%3E%3D%20v12.22.x-brightgreen)](https://nodejs.org)
 
 ### Features
 
