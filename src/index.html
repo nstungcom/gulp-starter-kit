@@ -7,3 +7,105 @@ bodyClass: start
 ---
 
 {# Add your codes here #}
+<div
+  class="
+    relative
+    flex
+    items-top
+    justify-center
+    min-h-screen
+    bg-gray-100
+    dark-bg-gray-900
+    sm-items-center
+    py-4
+    sm-pt-0
+  "
+>
+  <div class="max-w-6xl mx-auto sm-px-6 lg-px-8">
+    <div class="flex justify-center pt-8 sm-justify-start">
+      <img
+        width="120"
+        height="73"
+        src="assets/img/gulpjs-logo-text.svg"
+        alt="gulpjs logo"
+      />
+    </div>
+
+    <div
+      class="
+        mt-8
+        bg-white
+        dark-bg-gray-800
+        overflow-hidden
+        shadow
+        sm-rounded-lg
+      "
+    >
+      <div class="grid grid-cols-1 md-grid-cols-2">
+        <div class="p-6">
+          <div class="flex items-center">
+            <img
+              class="text-gray-500"
+              src="{{ {width: 32, height: 32} | placeholderImage }}"
+              alt="Placeholder image left"
+            />
+            <div class="ml-4 text-lg leading-7 font-semibold">
+              <a
+                target="_blank"
+                href="https://github.com/nstungcom/gulp-starter-kit/blob/v4/docs/README.md"
+                class="underline text-gray-900 dark-text-white"
+                >Documentation</a
+              >
+            </div>
+          </div>
+
+          <div class="ml-12">
+            <div class="mt-2 text-gray-600 dark-text-gray-400 text-sm">
+              Having trouble to get startet? Take a look at the documentation.
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="
+            p-6
+            border-t border-gray-200
+            dark-border-gray-700
+            md-border-t-0 md-border-l
+          "
+        >
+          <div class="flex items-center">
+            <img
+              class="text-gray-500"
+              src="{{ {width: 32, height: 32} | placeholderImage }}"
+              alt="Placeholder image right"
+            />
+            <div class="ml-4 text-lg leading-7 font-semibold">
+              <a
+                target="_blank"
+                href="https://github.com/nstungcom/gulp-starter-kit/issues"
+                class="underline text-gray-900 dark-text-white"
+                >Bug</a
+              >
+            </div>
+          </div>
+
+          <div class="ml-12">
+            <div class="mt-2 text-gray-600 dark-text-gray-400 text-sm">
+              Found a bug? Please report it so we can fix it as soon as
+              possible.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-4 sm-items-center sm-justify-between">
+      <div class="text-center text-sm text-gray-500 sm-text-left"></div>
+
+      <div class="ml-4 text-center text-sm text-gray-500 sm-text-right sm-ml-0">
+        Gulp Starter Kit v4
+      </div>
+    </div>
+  </div>
+</div>

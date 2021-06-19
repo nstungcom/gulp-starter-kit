@@ -1,18 +1,13 @@
 module.exports = {
   root: true,
   env: {
-    'browser': true,
-    'commonjs': true,
-    'es6': true,
-    'node': true
+    browser: true
   },
-  extends: [
-    'standard',
-  ],
+  plugins: ['prettier'],
+  extends: ['standard', 'prettier-standard'],
   globals: {
-    '$': 'readonly',
-    'jQuery': 'readonly'
+    $: 'readonly',
+    jQuery: 'readonly'
   },
-  rules: {
-  }
+  rules: {}
 }
