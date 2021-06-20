@@ -2,7 +2,8 @@
 const gulp = require('gulp')
 const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
-const gulpSass = require('gulp-sass')
+const sass = require('gulp-sass')
+const Fiber = require('fibers')
 const gulpStylelint = require('gulp-stylelint')
 const gulpPostcss = require('gulp-postcss')
 const gulpCleancss = require('gulp-clean-css')
@@ -12,13 +13,15 @@ const gulpEslint = require('gulp-eslint7')
 const gulpRollup = require('gulp-better-rollup')
 const rimraf = require('rimraf')
 const browsersync = require('browser-sync')
-const autoprefixer = require('autoprefixer')
 const imageminMozjpeg = require('imagemin-mozjpeg')
 const imageminPngquant = require('imagemin-pngquant')
 const babel = require('rollup-plugin-babel')
 const commonjs = require('@rollup/plugin-commonjs')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const { terser } = require('rollup-plugin-terser')
+
+// Use Dart Sass as compiler
+sass.compiler = require('sass')
 
 // Check for `production` flag
 const PRODUCTION = process.env.NODE_ENV === 'production'
@@ -42,10 +45,10 @@ const stylelint = (done) =>
 // Compile SCSS to CSS & copy additional CSS files which can be defined in `config.js`
 const css = () =>
   gulp
-    .src('src/assets/css/app.scss')
+    .src('src/assets/css/app.{css,scss}')
     .pipe(sourcemaps.init())
-    .pipe(gulpSass().on('error', gulpSass.logError))
-    .pipe(gulpPostcss([autoprefixer()]))
+    .pipe(sass({ fiber: Fiber }).on('error', sass.logError))
+    .pipe(gulpPostcss())
     .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
     .pipe(gulp.dest(`${PATHS.dist}/assets/css`))
@@ -55,7 +58,7 @@ const css = () =>
 const cleanCSS = () =>
   gulp
     .src([`${PATHS.dist}/**/*.css`, `!${PATHS.dist}/**/*min.css`])
-    .pipe(gulpPostcss([autoprefixer()]))
+    .pipe(gulpPostcss())
     .pipe(gulpCleancss({ level: { 1: { specialComments: false } } }))
     .pipe(
       gulpPurgecss({
