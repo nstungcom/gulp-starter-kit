@@ -152,13 +152,7 @@ const watchFiles = () => {
   gulp.watch('src/assets/css/**/*.{css,scss}', gulp.series(stylelint, css))
   gulp.watch('src/assets/js/**/*.js', gulp.series(eslint, js, liveReload))
   gulp.watch('src/assets/img/**/*', gulp.series(images, liveReload))
-  gulp.watch(
-    [
-      'src/**/*.{html,liquid,ejs,md,hbs,mustache,haml,pug,njk,11ty.js}',
-      'src/**/*.json'
-    ],
-    liveReload
-  )
+  gulp.watch(`${PATHS.dist}/**/*.html`, liveReload)
 }
 
 // Make tasks public which then can be run with the `gulp` command
