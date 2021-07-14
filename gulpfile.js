@@ -2,8 +2,7 @@
 const gulp = require('gulp')
 const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
-const sass = require('gulp-sass')
-const Fiber = require('fibers')
+const sass = require('gulp-sass')(require('sass'))
 const gulpStylelint = require('gulp-stylelint')
 const gulpPostcss = require('gulp-postcss')
 const gulpCleancss = require('gulp-clean-css')
@@ -19,9 +18,6 @@ const babel = require('rollup-plugin-babel')
 const commonjs = require('@rollup/plugin-commonjs')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const { terser } = require('rollup-plugin-terser')
-
-// Use Dart Sass as compiler
-sass.compiler = require('sass')
 
 // Check for `production` flag
 const PRODUCTION = process.env.NODE_ENV === 'production'
@@ -47,7 +43,7 @@ const css = () =>
   gulp
     .src('src/assets/css/app.{css,scss}')
     .pipe(sourcemaps.init())
-    .pipe(sass({ fiber: Fiber }).on('error', sass.logError))
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulpPostcss())
     .pipe(gulp.src(PATHS.additionalCssFiles2Copy, { since: gulp.lastRun(css) }))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
